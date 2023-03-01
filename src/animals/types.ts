@@ -8,3 +8,7 @@ export type AnimalModel = {
   age: number,
   images: string[],
 };
+
+export type AnimalData = Omit<AnimalModel, 'id'>;
+
+export type PartialAnimalData = PartialRecursive<AnimalData>;
