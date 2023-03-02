@@ -1,17 +1,17 @@
 import { RequestHandler } from 'express';
 import { animals } from 'animals/data';
-import { AnimalModel, PartialAnimalData } from 'animals/types';
+import { AnimalModel, AnimalDataBody } from 'animals/types';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import { createId } from 'helpers/create-id';
 
 const createAnimal: RequestHandler<
 {},
 AnimalModel | ErrorResponse,
-PartialAnimalData,
+AnimalDataBody,
 {}
 > = (req, res) => {
 try {
-   const animalData = animalDataValidationSchema.validateSync(req.body);
+   const animalData = animalDataValidationSchema.validateSync(req.body, { abortEarly: false });
    const createdAnimal = {
       id: createId(),
       ...animalData,

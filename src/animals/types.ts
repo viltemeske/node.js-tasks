@@ -11,4 +11,6 @@ export type AnimalModel = {
 
 export type AnimalData = Omit<AnimalModel, 'id'>;
 
-export type PartialAnimalData = PartialRecursive<AnimalData>;
+export type AnimalDataBody = PartialRecursive<AnimalData>;
+
+export type PartialAnimalData = Partial<AnimalData>;
