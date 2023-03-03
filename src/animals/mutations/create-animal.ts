@@ -22,7 +22,7 @@ try {
 
    res.status(201).json(createdAnimal);
    } catch (error) {
-       handleRequestError(err, res);
+       handleRequestError(error, res);
    }
 };
 
