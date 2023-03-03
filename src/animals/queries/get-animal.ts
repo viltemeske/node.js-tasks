@@ -1,6 +1,9 @@
 import { RequestHandler } from 'express';
 import { animals } from 'animals/data';
 import { AnimalModel } from 'animals/types';
+import ServerSetupError from 'errors/server-setup-error';
+import AnimalNotFoundError from 'animals/animal-not-found-error';
+import handleRequestError from 'helpers/handle-request-error';
 
 const getAnimal: RequestHandler<
 { id?: string },
@@ -10,18 +13,15 @@ undefined,
 > = (req, res) => {
   const { id } = req.params;
 
-  if (id === undefined) {
-    res.status(400).json({ error: 'Server setup error' });
-    return;
-  }
-  const foundAnimal = animals.find((animal) => String(animal.id) === id);
+  try {
+    if (id === undefined) throw new ServerSetupError();
+    const foundAnimal = animals.find((animal) => String(animal.id) === id);
+    if (foundAnimal === undefined) throw new AnimalNotFoundError(id);
 
-  if (foundAnimal === undefined) {
-    res.sendStatus(404).json({ error: `Animal whith '${id}' was nor find` });
-    return;
+    res.status(200).json(foundAnimal);
+  } catch (err) {
+    handleRequestError(err, res);
   }
-
-  res.status(200).json(foundAnimal);
 };
 
 export default getAnimal;

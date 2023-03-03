@@ -2,6 +2,9 @@ import { AnimalModel, AnimalDataBody } from 'animals/types';
 import { RequestHandler } from 'express';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import { animals } from 'animals/data';
+import AnimalNotFoundError from 'animals/animal-not-found-error';
+import ServerSetupError from 'errors/server-setup-error';
+import handleRequestError from 'helpers/handle-request-error';
 
 const putAnimal: RequestHandler<
     { id?: string },
@@ -11,29 +14,20 @@ const putAnimal: RequestHandler<
 > = (req, res) => {
     const { id } = req.params;
 
-    if (id === undefined) {
-        res.status(400).json({ error: 'Server setup error' });
-        return;
-    }
+    if (id === undefined) throw new ServerSetupError();
 
     try {
-        const animalData = animalDataValidationSchema.validateSync(req.body);
-        const foundAnimalIndex = animals.findIndex((animal) => String(animal.id) === id);
+      const animalData = animalDataValidationSchema.validateSync(req.body);
+      const foundAnimalIndex = animals.findIndex((animal) => String(animal.id) === id);
+      if (foundAnimalIndex === -1) throw new AnimalNotFoundError(id);
 
-        if (foundAnimalIndex === -1) {
-            res.status(400).json({ error: `animal whith id '${id}' was nor found` });
-        }
-        const updatedAnimal = {
-            id: animals[foundAnimalIndex].id,
-            ...animalData,
-        };
+      const updatedAnimal = { id: animals[foundAnimalIndex].id, ...animalData };
 
-        animals.splice(foundAnimalIndex, 1, updatedAnimal);
+      animals.splice(foundAnimalIndex, 1, updatedAnimal);
 
-        res.status(200).json(updatedAnimal);
-    } catch (error) {
-        const message = error instanceof Error ? error.message : 'server error';
-        res.status(400).json({ error: message });
+      res.status(200).json(updatedAnimal);
+    } catch (err) {
+      handleRequestError(err, res);
     }
 };
 

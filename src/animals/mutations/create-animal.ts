@@ -3,6 +3,7 @@ import { animals } from 'animals/data';
 import { AnimalModel, AnimalDataBody } from 'animals/types';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import { createId } from 'helpers/create-id';
+import handleRequestError from 'helpers/handle-request-error';
 
 const createAnimal: RequestHandler<
 {},
@@ -21,8 +22,7 @@ try {
 
    res.status(201).json(createdAnimal);
    } catch (error) {
-       const message = error instanceof Error ? error.message : 'server error';
-       res.status(400).json({ error: message });
+       handleRequestError(err, res);
    }
 };
 

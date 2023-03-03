@@ -1,7 +1,10 @@
 import { AnimalModel, AnimalDataBody } from 'animals/types';
 import { RequestHandler } from 'express';
-import partialAnimalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import { animals } from 'animals/data';
+import partialAnimalDataValidationSchema from 'animals/validation-schemas/partial-animal-validation-schema ';
+import handleRequestError from 'helpers/handle-request-error';
+import AnimalNotFoundError from 'animals/animal-not-found-error';
+import ServerSetupError from 'errors/server-setup-error';
 
 const patchAnimal: RequestHandler<
     { id?: string },
@@ -11,29 +14,19 @@ const patchAnimal: RequestHandler<
 > = (req, res) => {
     const { id } = req.params;
 
-    if (id === undefined) {
-        res.status(400).json({ error: 'Server setup error' });
-        return;
-    }
-
     try {
+        if (id === undefined) throw new ServerSetupError();
         const animalData = partialAnimalDataValidationSchema.validateSync(req.body);
-        const foundAnimalIndex = animals.findIndex((animal) => String(animal.id) === id);
+        const foundAnimal = animals.find((animal) => String(animal.id) === id);
 
-        if (foundAnimalIndex === -1) {
-            res.status(400).json({ error: `animal whith id '${id}' was nor found` });
-        }
-        const updatedAnimal = {
-            ...animals[foundAnimalIndex],
-            ...animalData,
-        };
-        animals.splice(foundAnimalIndex, 1, updatedAnimal);
+        if (foundAnimal === undefined) throw new AnimalNotFoundError(id);
 
-        res.status(200).json(updatedAnimal);
-    } catch (error) {
-        const message = error instanceof Error ? error.message : 'server error';
-        res.status(400).json({ error: message });
-    }
+        Object.assign(foundAnimal, animalData);
+
+        res.status(200).json(foundAnimal);
+      } catch (err) {
+        handleRequestError(err, res);
+      }
 };
 
 export default patchAnimal;
