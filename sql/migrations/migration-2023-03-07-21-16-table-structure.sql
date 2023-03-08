@@ -28,7 +28,7 @@ create table user (
     name varchar(64) not null,
     surname varchar(64) not null,
     mobile varchar(16) not null,
-    userRole int not null,
+    role enum('USER', 'ADMIN') not null,
     imageId int4 unsigned not null unique,
 	cretedAt timestamp default current_timestamp,
 	updatedAt timestamp default current_timestamp on update current_timestamp,
