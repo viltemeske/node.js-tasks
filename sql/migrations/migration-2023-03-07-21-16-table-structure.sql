@@ -7,7 +7,7 @@ create table speciesType (
 
 create table animalSpecies (
 	animalSpeciesId int4 unsigned primary key auto_increment,
-	title varchar(256) not null unique,
+	title varchar(256) not null,
     speciesTypeId int4 unsigned not null,
 	cretedAt timestamp default current_timestamp,
 	updatedAt timestamp default current_timestamp on update current_timestamp,
@@ -28,6 +28,7 @@ create table user (
     name varchar(64) not null,
     surname varchar(64) not null,
     mobile varchar(16) not null,
+    userRole int not null,
     imageId int4 unsigned not null unique,
 	cretedAt timestamp default current_timestamp,
 	updatedAt timestamp default current_timestamp on update current_timestamp,
