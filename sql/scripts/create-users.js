@@ -35,6 +35,11 @@ ${hostsInsertionRows};
 console.log(imagesInsertionSql);
 console.log(usersInsertionSql);
 
+const usersEmailIdMap = fosterers.reduce((prevMap, fosterer, i) => ({
+  ...prevMap,
+  [fosterer.email]: i + 2
+}), {});
+
 module.exports = {
-  users: fosterers.map((x, i) => ({ ...x, id: i + 2 }))
+  usersEmailIdMap
 }
