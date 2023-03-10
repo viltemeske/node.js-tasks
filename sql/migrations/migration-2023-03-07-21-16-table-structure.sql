@@ -28,7 +28,7 @@ create table user (
     name varchar(64) not null,
     surname varchar(64) not null,
     mobile varchar(16) not null,
-    role enum('USER', 'ADMIN') not null,
+    role enum('USER', 'ADMIN') default 'USER',
     imageId int4 unsigned not null unique,
 	cretedAt timestamp default current_timestamp,
 	updatedAt timestamp default current_timestamp on update current_timestamp,
@@ -48,11 +48,8 @@ create table animal (
 );
 
 create table animalImage (
-	imageId int4 unsigned not null,
     animalId int4 unsigned not null,
-	cretedAt timestamp default current_timestamp,
-	updatedAt timestamp default current_timestamp on update current_timestamp,
-    foreign key (imageId) references image(imageId),
+	imageId int4 unsigned not null primary key,
     foreign key (animalId) references animal(animalId),
-    primary key (imageId) 
-);
+	foreign key (imageId) references image(imageId)
+   );

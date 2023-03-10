@@ -2,14 +2,14 @@ const createAnimals = (animals, usersEmailIdMap, typeSpeciesMap) => {
     const animalInsertionRows = animals
         .map(({
             name,
-            type: { type, species },
             age,
+            type: { type, species },
             fosterer,
         }) => `('${name}', '${age}', ${typeSpeciesMap[type][species]}, ${usersEmailIdMap[fosterer.email]})`)
         .join(',\n');
 
     return `
-insert into animals(name, animalSpeciesId, age, userId) values
+insert into animal(name, age, animalSpeciesId, userId) values
 ${animalInsertionRows};`;
 }
 
