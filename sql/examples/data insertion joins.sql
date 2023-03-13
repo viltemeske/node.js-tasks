@@ -1,6 +1,11 @@
 select
 	a.animalId as id,
-	a.name, 
+	a.name,
+	a.age, 
+	json_object(
+		'rūšis', sp.title,
+		'tipas', st.title
+	) as tipas, 
     json_object(
 		'id', u.userId,
         'name', u.name,
@@ -8,10 +13,6 @@ select
         'mobile', u.mobile,
         'email', u.email
 	) as fosterer,
- json_object(
-		'rūšis', sp.title,
-	'tipas', st.title
-	) as tipas,
 -- count(a.animalId)
 -- sum(a.userId)
 -- a.animalId, count(i.src)
