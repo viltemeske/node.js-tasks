@@ -1,15 +1,12 @@
 import { RequestHandler } from 'express';
-import { AnimalModel } from 'animals/types';
+import { AnimalViewModel } from 'animals/types';
 import ServerSetupError from 'errors/server-setup-error';
-import AnimalNotFoundError from 'animals/animal-not-found-error';
 import handleRequestError from 'helpers/handle-request-error';
-import mysql from 'mysql2/promise';
-import config from 'config';
-import SQL from 'animals/sql';
+import AnimalModel from 'animals/animals-model';
 
 const getAnimal: RequestHandler<
   { id?: string },
-  AnimalModel | ErrorResponse,
+  AnimalViewModel | ErrorResponse,
   undefined,
   {}
 > = async (req, res) => {
@@ -17,19 +14,9 @@ const getAnimal: RequestHandler<
 
   try {
     if (id === undefined) throw new ServerSetupError();
-    const connection = await mysql.createConnection(config.database);
+    const animalViewModel = await AnimalModel.getAnimal(id);
 
-    const sql = `
-    ${SQL.SELECT}
-    where a.animalId = ${id}
-    ${SQL.GROUP}`;
-
-    const [animals] = await connection.query<mysql.RowDataPacket[]>(sql);
-    if (animals.length === 0) throw new AnimalNotFoundError(id);
-
-    connection.end();
-
-    res.json(animals[0] as AnimalModel);
+    res.json(animalViewModel);
   } catch (err) {
     handleRequestError(err, res);
   }

@@ -1,13 +1,12 @@
 import { RequestHandler } from 'express';
-import { animals } from 'animals/data';
-import { AnimalModel, AnimalDataBody } from 'animals/types';
+import { AnimalViewModel, AnimalDataBody } from 'animals/types';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
-import { createId } from 'helpers/create-id';
 import handleRequestError from 'helpers/handle-request-error';
+import { createId } from 'helpers/create-id';
 
 const createAnimal: RequestHandler<
 {},
-AnimalModel | ErrorResponse,
+AnimalViewModel | ErrorResponse,
 AnimalDataBody,
 {}
 > = (req, res) => {

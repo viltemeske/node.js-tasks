@@ -1,4 +1,4 @@
-import { AnimalModel, AnimalDataBody } from 'animals/types';
+import { AnimalDataBody, AnimalViewModel } from 'animals/types';
 import { RequestHandler } from 'express';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import { animals } from 'animals/data';
@@ -8,7 +8,7 @@ import handleRequestError from 'helpers/handle-request-error';
 
 const putAnimal: RequestHandler<
     { id?: string },
-    AnimalModel | ErrorResponse,
+    AnimalViewModel | ErrorResponse,
     AnimalDataBody,
     {}
 > = (req, res) => {

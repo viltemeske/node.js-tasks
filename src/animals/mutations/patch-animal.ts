@@ -1,6 +1,5 @@
-import { AnimalModel, AnimalDataBody } from 'animals/types';
+import { AnimalDataBody, AnimalViewModel } from 'animals/types';
 import { RequestHandler } from 'express';
-import { animals } from 'animals/data';
 import partialAnimalDataValidationSchema from 'animals/validation-schemas/partial-animal-validation-schema ';
 import handleRequestError from 'helpers/handle-request-error';
 import AnimalNotFoundError from 'animals/animal-not-found-error';
@@ -8,7 +7,7 @@ import ServerSetupError from 'errors/server-setup-error';
 
 const patchAnimal: RequestHandler<
     { id?: string },
-    AnimalModel | ErrorResponse,
+    AnimalViewModel | ErrorResponse,
     AnimalDataBody,
     {}
 > = (req, res) => {

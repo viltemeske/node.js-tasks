@@ -3,18 +3,18 @@ import express from 'express';
 import getAnimal from './queries/get-animal';
 import getAnimals from './queries/get-animals';
 // import createAnimal from './mutations/create-animal';
-// import deleteAnimal from './mutations/delete-animal';
+import deleteAnimal from './mutations/delete-animal';
 // import putAnimal from './mutations/put-animal';
 // import patchAnimal from './mutations/patch-animal';
 
-const animalsRouter = express.Router();
+const animalsControler = express.Router();
 
-animalsRouter.get('/', getAnimals);
-animalsRouter.get('/:id', getAnimal);
+animalsControler.get('/', getAnimals);
+animalsControler.get('/:id', getAnimal);
 
 // animalsRouter.post('/', createAnimal);
 // animalsRouter.put('/:id', putAnimal);
 // animalsRouter.patch('/:id', patchAnimal);
-// animalsRouter.delete('/:id', deleteAnimal);
+animalsControler.delete('/:id', deleteAnimal);
 
-export default animalsRouter;
+export default animalsControler;

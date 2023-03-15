@@ -49,7 +49,8 @@ create table animal (
 
 create table animalImage (
     animalId int4 unsigned not null,
-	imageId int4 unsigned not null primary key,
+	imageId int4 unsigned not null,
     foreign key (animalId) references animal(animalId),
-	foreign key (imageId) references image(imageId)
+	foreign key (imageId) references image(imageId) on delete cascade,
+    primary key (imageId)
    );

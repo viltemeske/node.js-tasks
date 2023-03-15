@@ -14,8 +14,8 @@ connection.query('SELECT 1', (err) => {
   });
 };
 
-const DatabasseService = {
+const DatabaseService = {
     connect,
 };
 
-export default DatabasseService;
+export default DatabaseService;

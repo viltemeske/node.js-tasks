@@ -1,4 +1,4 @@
-export type AnimalModel = {
+export type AnimalViewModel = {
   id: number,
   name: string,
   age: number,
@@ -16,7 +16,7 @@ export type AnimalModel = {
   images: string[],
 };
 
-export type AnimalData = Omit<AnimalModel, 'id' | 'fosterer' | 'type'> & {
+export type AnimalData = Omit<AnimalViewModel, 'id' | 'fosterer' | 'type'> & {
 animalSpeciesId: number
 };
 

@@ -1,27 +1,23 @@
 import { RequestHandler } from 'express';
-import { animals } from 'animals/data';
-import { AnimalModel } from 'animals/types';
 import ServerSetupError from 'errors/server-setup-error';
-import AnimalNotFoundError from 'animals/animal-not-found-error';
 import handleRequestError from 'helpers/handle-request-error';
+import { AnimalViewModel } from 'animals/types';
+import AnimalModel from 'animals/animals-model';
 
 const deleteAnimal: RequestHandler<
     { id?: string },
-    AnimalModel | ErrorResponse,
+    AnimalViewModel | ErrorResponse,
     {},
     {}
-> = (req, res) => {
+> = async (req, res) => {
     const { id } = req.params;
 
     try {
         if (id === undefined) throw new ServerSetupError();
+        const animalViewModel = await AnimalModel.getAnimal(id);
+        await AnimalModel.deleteAnimal(id);
 
-        const foundAnimalIndex = animals.findIndex((animal) => String(animal.id) === id);
-        if (foundAnimalIndex === -1) throw new AnimalNotFoundError(id);
-
-        const [foundAnimal] = animals.splice(foundAnimalIndex, 1);
-
-        res.status(200).json(foundAnimal);
+        res.status(200).json(animalViewModel);
       } catch (err) {
         handleRequestError(err, res);
       }
