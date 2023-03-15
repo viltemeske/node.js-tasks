@@ -2,24 +2,19 @@ import { RequestHandler } from 'express';
 import { AnimalViewModel, AnimalDataBody } from 'animals/types';
 import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import handleRequestError from 'helpers/handle-request-error';
-import { createId } from 'helpers/create-id';
+import AnimalModel from 'animals/animals-model';
 
 const createAnimal: RequestHandler<
 {},
 AnimalViewModel | ErrorResponse,
 AnimalDataBody,
 {}
-> = (req, res) => {
+> = async (req, res) => {
 try {
    const animalData = animalDataValidationSchema.validateSync(req.body, { abortEarly: false });
-   const createdAnimal = {
-      id: createId(),
-      ...animalData,
-   };
+   const animalViewModel = await AnimalModel.createAnimal(animalData);
 
-   animals.push(createdAnimal);
-
-   res.status(201).json(createdAnimal);
+   res.status(201).json(animalViewModel);
    } catch (error) {
        handleRequestError(error, res);
    }

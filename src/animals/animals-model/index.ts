@@ -1,5 +1,5 @@
 import AnimalNotFoundError from 'animals/animal-not-found-error';
-import { AnimalViewModel } from 'animals/types';
+import { AnimalData, AnimalViewModel } from 'animals/types';
 import config from 'config';
 import mysql from 'mysql2/promise';
 import SQL from './sql';
@@ -56,12 +56,55 @@ const deleteAnimal = async (id: string): Promise<void> => {
 
   const bindings = [id, id, id];
   await connection.query(preparedSql, bindings);
+
+  connection.end();
+};
+
+const createAnimal = async (animalData: AnimalData): Promise<AnimalViewModel> => {
+  const connection = await mysql.createConnection(config.database);
+
+  const preparedSql = `
+  insert into animal (name, age, animalSpeciesId, userId) values
+  (?, ?, ?, 2);
+
+  set @created_animal_id = last_insert_id();
+
+  insert into image(src) values
+  ${animalData.images.map(() => '(?)').join(',\n')};
+
+  set @first_image_id = last_insert_id();
+
+  insert into animalimage(imageId, animalId)
+  select imageId, @created_animal_id as animalId
+  from image
+  where imageId >= @first_image_id;
+
+  ${SQL.SELECT}
+  where a.animalId = @created_animal_id
+  ${SQL.GROUP}
+  `;
+
+  const bindings = [
+    animalData.name,
+    animalData.age,
+    animalData.animalSpeciesId,
+    // animalData.fostererId,
+    ...animalData.images,
+  ];
+
+  const [queryResult] = await connection.query<mysql.RowDataPacket[][]>(preparedSql, bindings);
+  const [animal] = queryResult[queryResult.length - 1] as AnimalViewModel[];
+
+ connection.end();
+
+ return animal;
 };
 
 const AnimalModel = {
   getAnimals,
   getAnimal,
   deleteAnimal,
+  createAnimal,
 };
 
 export default AnimalModel;
