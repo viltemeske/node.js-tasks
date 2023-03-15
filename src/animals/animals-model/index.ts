@@ -100,11 +100,68 @@ const createAnimal = async (animalData: AnimalData): Promise<AnimalViewModel> =>
  return animal;
 };
 
+const replaceAnimal = async (animalId: string, animalData: AnimalData):
+Promise<AnimalViewModel> => {
+const connection = await mysql.createConnection(config.database);
+
+const preparedSql = `
+update animal
+set name = ?, age = ?, animalSpeciesId = ?
+where animalId = ?;
+
+set @animalimagesIds = (
+  select group_concat(imageId)
+  from animalimage
+  where animalId = ?
+  group by animalId);
+
+delete from animalimage
+where animalId = ?;
+
+delete from image
+where find_in_set(imageId, @animalimagesIds);
+
+insert into image (src) values
+${animalData.images.map(() => '(?)').join(',\n')};
+
+set @first_image_id = last_insert_id();
+
+insert into animalimage(imageId, animalId)
+select imageId, ? as animalId
+from image
+where imageId >= @first_image_id; 
+
+${SQL.SELECT}
+where a.animalId = ?
+${SQL.GROUP};
+`;
+
+const bindings = [
+  animalData.name,
+  animalData.age,
+  animalData.animalSpeciesId,
+  animalId,
+  animalId,
+  animalId,
+  ...animalData.images,
+  animalId,
+  animalId,
+];
+
+const [queryResult] = await connection.query<mysql.RowDataPacket[][]>(preparedSql, bindings);
+const [animal] = queryResult[queryResult.length - 1] as AnimalViewModel[];
+
+connection.end();
+
+return animal;
+};
+
 const AnimalModel = {
   getAnimals,
   getAnimal,
   deleteAnimal,
   createAnimal,
+  replaceAnimal,
 };
 
 export default AnimalModel;
