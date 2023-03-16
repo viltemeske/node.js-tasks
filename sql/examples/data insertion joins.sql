@@ -13,9 +13,6 @@ select
         'mobile', u.mobile,
         'email', u.email
 	) as fosterer,
--- count(a.animalId)
--- sum(a.userId)
--- a.animalId, count(i.src)
 a.animalId, json_arrayagg(i.src) as images
 from animal as a 
 join user u
