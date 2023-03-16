@@ -17,7 +17,7 @@ const animalDataValidationSchema: yup.ObjectSchema<AnimalData> = yup.object({
         ),
 
     images: yup
-        .array(yup.string().required())
+        .array(yup.string().required().url('image must be accessible'))
         .min(1, 'ar least one image required')
         .required('images are required'),
 

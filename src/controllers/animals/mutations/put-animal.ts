@@ -16,11 +16,11 @@ const putAnimal: RequestHandler<
 
     try {
       if (id === undefined || req.authUser === undefined) throw new ServerSetupError();
-      const animalToUpdate = await AnimalModel.getAnimal(id);
+    const animalToUpdate = await AnimalModel.getAnimal(id);
 
-      if (req.authUser.role !== 'ADMIN' && req.authUser.id !== animalToUpdate.fosterer.id) {
-        throw new ForbiddenError();
-      }
+    if (req.authUser.role !== 'ADMIN' && req.authUser.id !== animalToUpdate.fosterer.id) {
+      throw new ForbiddenError();
+    }
       const animalData = animalDataValidationSchema.validateSync(req.body);
       const animalViewModel = await AnimalModel.replaceAnimal(id, animalData);
 

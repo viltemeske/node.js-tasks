@@ -15,7 +15,7 @@ const partialAnimalDataValidationSchema: yup.ObjectSchema<PartialAnimalData> = y
         ),
 
     images: yup
-        .array(yup.string().required('images are required')),
+        .array(yup.string().required('images are required').url('image must be accessible')),
 
     animalSpeciesId: yup.number(),
 }).strict(true);
