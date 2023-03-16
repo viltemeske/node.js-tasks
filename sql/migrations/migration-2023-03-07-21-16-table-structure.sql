@@ -38,7 +38,7 @@ create table user (
 create table animal (
 	animalId int4 unsigned primary key auto_increment,
     name varchar(64) not null,
-    age int not null,
+    age int unsigned not null,
     animalSpeciesId int4 unsigned not null,
     userId int4 unsigned not null,
 	cretedAt timestamp default current_timestamp,

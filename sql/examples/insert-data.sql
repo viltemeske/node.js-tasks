@@ -1,4 +1,4 @@
-insert into animal (name, age, animalSpeciesId) values
+insert into animal (name, age, animalSpeciesId, userId) values
 ('Muka', 3, 5, 2);
 
 set @created_animal_id = last_insert_id();

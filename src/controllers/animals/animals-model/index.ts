@@ -100,26 +100,25 @@ const createAnimal = async (animalData: AnimalData): Promise<AnimalViewModel> =>
  return animal;
 };
 
-const replaceAnimal = async (animalId: string, animalData: AnimalData):
-Promise<AnimalViewModel> => {
-const connection = await mysql.createConnection(config.database);
+const replaceAnimal = async (animalId: string, animalData: AnimalData):Promise<AnimalViewModel> => {
+  const connection = await mysql.createConnection(config.database);
 
-const preparedSql = `
+  const preparedSql = `
 update animal
 set name = ?, age = ?, animalSpeciesId = ?
 where animalId = ?;
 
-set @animalimagesIds = (
+set @animalImagesIds = (
   select group_concat(imageId)
-  from animalimage
-  where animalId = ?
-  group by animalId);
+   from animalimage
+   where animalId = ?
+   group by animalId);
 
 delete from animalimage
 where animalId = ?;
 
 delete from image
-where find_in_set(imageId, @animalimagesIds);
+where find_in_set(imageId, @animalImagesIds);
 
 insert into image (src) values
 ${animalData.images.map(() => '(?)').join(',\n')};
