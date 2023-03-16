@@ -60,12 +60,12 @@ const deleteAnimal = async (id: string): Promise<void> => {
   connection.end();
 };
 
-const createAnimal = async (animalData: AnimalData): Promise<AnimalViewModel> => {
+const createAnimal = async (animalData: AnimalData, userId: number): Promise<AnimalViewModel> => {
   const connection = await mysql.createConnection(config.database);
 
   const preparedSql = `
   insert into animal (name, age, animalSpeciesId, userId) values
-  (?, ?, ?, 2);
+  (?, ?, ?, ?);
 
   set @created_animal_id = last_insert_id();
 
@@ -88,7 +88,7 @@ const createAnimal = async (animalData: AnimalData): Promise<AnimalViewModel> =>
     animalData.name,
     animalData.age,
     animalData.animalSpeciesId,
-    // animalData.fostererId,
+    userId,
     ...animalData.images,
   ];
 

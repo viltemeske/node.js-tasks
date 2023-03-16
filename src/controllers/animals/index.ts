@@ -1,4 +1,5 @@
 import express from 'express';
+import jwtTokenMiddleware from 'middlewares/jwt-token-middleware';
 import getAnimal from './queries/get-animal';
 import getAnimals from './queries/get-animals';
 import createAnimal from './mutations/create-animal';
@@ -9,8 +10,9 @@ const animalsControler = express.Router();
 
 animalsControler.get('/', getAnimals);
 animalsControler.get('/:id', getAnimal);
-animalsControler.post('/', createAnimal);
-animalsControler.put('/:id', putAnimal);
-animalsControler.delete('/:id', deleteAnimal);
+
+animalsControler.post('/', jwtTokenMiddleware, createAnimal);
+animalsControler.put('/:id', jwtTokenMiddleware, putAnimal);
+animalsControler.delete('/:id', jwtTokenMiddleware, deleteAnimal);
 
 export default animalsControler;
