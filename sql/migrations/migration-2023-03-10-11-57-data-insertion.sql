@@ -27,9 +27,9 @@ insert into image(src) values
 ('https://i.pinimg.com/736x/b7/36/e2/b736e222d4112f20c00c2b66aa232376.jpg');
 
 insert into user(email, password, name, surname, mobile, imageId, role) values
-('admin@admin.com', '123456789', 'Adminas', 'Smegenius', '+370 6999099', 1, 'ADMIN'),
-('meshkenai@gmail.com', 'laikinas', 'Viltė', 'Meškė', '+370 699 90759', 2, 'USER'),
-('stebuklingidraugai@gmail.com', 'laikinas', 'Ugnė', 'Nedzin', '+370 699 12345', 3, 'USER');
+('admin@admin.com', '$2b$09$61uUze9zSHS1cC1sAWL7yefq3KERcCiGulGkmPGxRqYDLusc2m6uK', 'Adminas', 'Smegenius', '+370 6999099', 1, 'ADMIN'),
+('meshkenai@gmail.com', '$2b$09$PciSrV2GhMspXCpenlMb9.AW/p0wUYKlDxFjAA4IGYH6zPFMkiw6y', 'Viltė', 'Meškė', '+370 699 90759', 2, 'USER'),
+('stebuklingidraugai@gmail.com', '$2b$09$PciSrV2GhMspXCpenlMb9.AW/p0wUYKlDxFjAA4IGYH6zPFMkiw6y', 'Ugnė', 'Nedzin', '+370 699 12345', 3, 'USER');
 
 insert into animal(name, age, animalSpeciesId, userId) values
 ('Rio', '3', 12, 2),
