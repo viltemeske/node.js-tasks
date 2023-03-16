@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import mysql from 'mysql2';
 import config from 'config';
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import getAnimal from './queries/get-animal';
 import getAnimals from './queries/get-animals';

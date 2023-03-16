@@ -1,14 +1,12 @@
 import * as yup from 'yup';
-import { AnimalData } from 'animals/types';
+import { PartialAnimalData } from '../types';
 
-const animalDataValidationSchema: yup.ObjectSchema<AnimalData> = yup.object({
+const partialAnimalDataValidationSchema: yup.ObjectSchema<PartialAnimalData> = yup.object({
     name: yup.string()
-        .required('name is required')
         .min(2, 'name must have at least 2 letters')
         .max(32, 'name can\'t have more than 32 letters'),
 
     age: yup.number()
-        .required('age is required')
         .positive('age must be positive')
         .test(
             'ageFormat',
@@ -17,12 +15,9 @@ const animalDataValidationSchema: yup.ObjectSchema<AnimalData> = yup.object({
         ),
 
     images: yup
-        .array(yup.string().required())
-        .min(1, 'ar least one image required')
-        .required('images are required'),
+        .array(yup.string().required('images are required')),
 
-    animalSpeciesId: yup.number()
-        .required('species is required'),
+    animalSpeciesId: yup.number(),
 }).strict(true);
 
-export default animalDataValidationSchema;
+export default partialAnimalDataValidationSchema;

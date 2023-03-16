@@ -1,7 +1,7 @@
-import AnimalNotFoundError from 'animals/animal-not-found-error';
-import { AnimalData, AnimalViewModel } from 'animals/types';
 import config from 'config';
 import mysql from 'mysql2/promise';
+import AnimalNotFoundError from '../animal-not-found-error';
+import { AnimalData, AnimalViewModel } from '../types';
 import SQL from './sql';
 
 const getAnimals = async (): Promise<AnimalViewModel[]> => {

@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express';
-import { AnimalViewModel, AnimalDataBody } from 'animals/types';
-import animalDataValidationSchema from 'animals/validation-schemas/animal-validation-schema';
 import handleRequestError from 'helpers/handle-request-error';
-import AnimalModel from 'animals/animals-model';
+import AnimalModel from '../animals-model';
+import { AnimalDataBody, AnimalViewModel } from '../types';
+import animalDataValidationSchema from '../validation-schemas/animal-validation-schema';
 
 const createAnimal: RequestHandler<
 {},

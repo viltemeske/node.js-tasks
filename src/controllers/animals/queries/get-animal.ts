@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express';
-import { AnimalViewModel } from 'animals/types';
 import ServerSetupError from 'errors/server-setup-error';
 import handleRequestError from 'helpers/handle-request-error';
-import AnimalModel from 'animals/animals-model';
+import { AnimalViewModel } from '../types';
+import AnimalModel from '../animals-model';
 
 const getAnimal: RequestHandler<
   { id?: string },
