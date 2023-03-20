@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "2a622ff2-990d-41fc-b4b1-8fbd8b81fcc5",
+		"name": "animals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25198556"
+	},
+	"item": [
+		{
+			"name": "many",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{address}}/api/animals",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{address}}/api/animals/9",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Maunkas\",\r\n        \"age\": 1,\r\n        \"animalSpeciesId\": 5,\r\n        \"images\": [\r\n            \"https://cdn.pixabay.com/photo/2018/03/26/02/05/cat-3261420__340.jpg\",\r\n            \"https://cdn.pixabay.com/photo/2018/03/26/02/05/cat-3261420__340.jpg\"\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/api/animals",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"api",
+						"animals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{address}}/api/animals/15",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "single",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "2",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"Maukas\",\r\n        \"age\": 6,\r\n        \"animalSpeciesId\": 5,\r\n        \"images\": [\r\n            \"https://cdn.pixabay.com/photo/2018/03/26/02/05/cat-3261420__340.jpg\",\r\n            \"https://cdn.pixabay.com/photo/2018/03/26/02/05/cat-3261420__340.jpg\"\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/api/animals/15",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"api",
+						"animals",
+						"15"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": null,
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
